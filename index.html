@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/10f6d541c6.js" crossorigin="anonymous"></script>
+    <title>Quotes</title>
+    <!-- <style>
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* background-color:#FEBBCC; */
+            background-image: url("../Image/abstract-textured-backgound.jpg");
+            background-size: cover;
+            background-attachment: fixed;
+            position: fixed;
+            overflow-y: scroll;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            /* border: 5px solid green; */
+        }
+
+        .inner {
+            height: 80vh;
+            width: 60vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* border: 5px solid green; */
+            /* background-color: rgba(25, 182, 255, 0.884); */
+            background-image: url("./Image/ombre-blue-curve-light-blue-background-vector.jpg");
+            background-size: cover;
+        }
+
+        .box {
+            width: 70%;
+            height: 70%;
+            background-color: #fff;
+            box-shadow: 2px 2px 10px 5px rgba(0, 0, 0, 0.232);
+            position: relative;
+            overflow: hidden;
+            border-radius: 5px;
+            /* border: 5px solid green; */
+        }
+
+        .number {
+            height: 60px;
+            width: 150px;
+            position: absolute;
+            top: -30px;
+            right: -60px;
+            background-color: rgba(0, 0, 0, 0.158);
+            transform: rotate(45deg);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.232);
+            /* border: 5px solid green; */
+        }
+
+        #tweetMe {
+            height: 25px;
+            width: 25px;
+            padding: 5px;
+            transform: rotate(-45deg);
+            animation: rotweet 1s linear;
+        }
+
+        @keyframes rotweet {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .text {
+            padding: 10%;
+            /* border: 5px solid green; */
+            padding-bottom: 0%;
+        }
+
+        .start-quote {
+            opacity: 0.2;
+            font-size: 50px;
+        }
+
+        #quotes {
+            font-family: "Courier New", Courier, monospace;
+            font-size: 25px;
+            opacity: 0.8;
+
+        }
+
+        .author {
+            text-align: right;
+            font-size: 12px;
+        }
+
+        .newQ {
+            width: 100%;
+            font-size: 18px;
+            text-transform: capitalize;
+            color: #fff;
+        }
+
+        .button {
+            width: 100%;
+            height: 10%;
+            /* background-color: rgba(0, 89, 255, 0.89); */
+            background-color: #FE0000;
+            text-align: center;
+            position: absolute;
+            bottom: 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            letter-spacing: 2px;
+        }
+
+        #Name {
+            position: absolute;
+            top: 0px;
+            color: #FE0000;
+        }
+
+        @media(max-width: 415px) {
+            .container {
+                background-color: black
+            }
+        }
+    </style> -->
+    <link rel="stylesheet" href="/styles/c.css">
+</head>
+
+<body>
+    <!-- <div id="quotes"></div>
+    <div id="authar"></div>
+    <button id="NewQ"></button>
+    <button id="tweetMe"></button> -->
+
+    <div class="container">
+        <h1 id="Name">Pritam Mishra</h1>
+        <div class="inner">
+            <div class="box">
+                <p class="number">
+                    <img src="./Image/3D_Square_with_Twitter_Logo-removebg-preview (1).png" alt="Tweet_Me "
+                        title="TweetMe" id="tweetMe">
+                </p>
+                <div class="text">
+                    <i class="start-quote fas fa-quote-left" style="color: #FE0000;"></i>
+                    <p id="quotes" class="quotes"></p>
+                    <p id="authar" class="authar"></p>
+                </div>
+                <label class="button">
+                    <p id="NewQ">New_Quotes</p>
+                </label>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // alert("hello");
+        const quotes = document.getElementById("quotes");
+        const authar = document.getElementById("authar");
+        const NewQ = document.getElementById("NewQ");
+        const tweetMe = document.getElementById('tweetMe');
+        let realdata = "";
+        let quotesData = "";
+
+        const tweetNow = () => {
+            const tweetPost = `https://twitter.com/intent/tweet?text= ${quotesData.text}`
+            window.open(tweetPost);
+        }
+        const GetNewQuotes = () => {
+            const rnum = Math.floor(Math.random() * 16);
+            quotesData = realdata[rnum]
+            // console.warn(rnum);
+            quotes.innerText = `${quotesData.text}`;
+            authar.innerText = `${quotesData.author}`;
+        }
+        const getQuotes = async () => {
+            const api = "https://type.fit/api/quotes";
+            try {
+                let data = await fetch(api);
+                realdata = await data.json();
+                // console.log(realdata.length);
+                GetNewQuotes();
+
+            } catch (err) { };
+        };
+        tweetMe.addEventListener("click", tweetNow);
+        NewQ.addEventListener("click", GetNewQuotes);
+        getQuotes();
+        // GetNewQuotes();
+    </script>
+</body>
+
+</html>
